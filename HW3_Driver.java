@@ -42,7 +42,7 @@ public class HW3_Driver {
 			dictionary.put(k, s);
 		}
 		s = inRead.readLine();
-		ArrayList<String> output = findSpaces(s, 0);
+		ArrayList<String> output = findSpaces(s, 0, "", 0);
 		System.out.println(output.size());
 		Iterator<String> i = output.iterator();
 		while(i.hasNext()){
@@ -59,24 +59,24 @@ public class HW3_Driver {
       }
 	}
 	
-	public static ArrayList<String> findSpaces(String in, int index){
+	public static ArrayList<String> findSpaces(String in, int index, String known, int st){
 		ArrayList<String> out = new ArrayList<String>();
 		if(index >= in.length()){return out;}
-		String poss = "";
+		String poss = known;
 		String tmp = "";
-		int wordStart = 0;
+		int wordStart = st;
 		while(index <= in.length()){ 
 			tmp = in.substring(wordStart, index);
 			if(dictionary.containsValue(tmp)){
-				out.addAll(findSpaces(in, index+1));
+				out.addAll(findSpaces(in, index+1, poss, wordStart));
 				poss += tmp + " ";
 				wordStart = index;
 			}
 			index++;
 		}
-		//if(dictionary.containsValue(tmp)){
-			//poss += tmp;
-		//}
+		if(!dictionary.containsValue(tmp)){
+			return out;
+		}
 		if(!poss.isEmpty()){out.add(poss);}
 		return out;
 	}
