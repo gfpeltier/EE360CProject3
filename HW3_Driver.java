@@ -61,12 +61,16 @@ public class HW3_Driver {
 	
 	public static ArrayList<String> findSpaces(String in, int index, String known, int st){
 		ArrayList<String> out = new ArrayList<String>();
-		if(index >= in.length()){return out;}
+		if(index > in.length()){return out;}
 		String poss = known;
 		String tmp = "";
 		int wordStart = st;
 		while(index <= in.length()){ 
-			tmp = in.substring(wordStart, index);
+			if(index < in.length()){
+				tmp = in.substring(wordStart, index);
+			}else{
+				tmp = in.substring(wordStart);
+			}
 			if(dictionary.containsValue(tmp)){
 				out.addAll(findSpaces(in, index+1, poss, wordStart));
 				poss += tmp + " ";
@@ -77,7 +81,9 @@ public class HW3_Driver {
 		if(!dictionary.containsValue(tmp)){
 			return out;
 		}
-		if(!poss.isEmpty()){out.add(poss);}
+		if(!poss.isEmpty()){
+			poss = poss.substring(0, poss.length()-1);
+			out.add(poss);}
 		return out;
 	}
 
